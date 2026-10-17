@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+// Ceci est la livraison partielle
 
 @Composable
 fun EditNumberField(
