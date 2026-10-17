@@ -43,15 +43,19 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    TipTimeLayout()
+                    TipTimeLayout(
+                    )
                 }
             }
         }
     }
 }
+
 @Composable
 fun EditNumberField(modifier: Modifier = Modifier) {
     var amountInput by remember { mutableStateOf("") }
+    val amount = amountInput.toDoubleOrNull()?:0.0
+    val tip = calculateTip(amount)
     TextField(
         value = amountInput,
         onValueChange = { amountInput = it },
@@ -64,6 +68,8 @@ fun EditNumberField(modifier: Modifier = Modifier) {
 
 @Composable
 fun TipTimeLayout() {
+
+
     Column(
         modifier = Modifier
             .statusBarsPadding()
