@@ -1,6 +1,7 @@
 package com.example.tipcalculator
 
 import android.os.Bundle
+import android.widget.NumberPicker.OnValueChangeListener
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -32,6 +33,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.input.pointer.HistoricalChange
 import androidx.compose.ui.text.input.KeyboardType
 
 class MainActivity : ComponentActivity() {
@@ -52,13 +54,16 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun EditNumberField(modifier: Modifier = Modifier) {
+fun EditNumberField(
+    value: String,
+    onValueChange: (String)-> Unit,
+    modifier: Modifier = Modifier) {
     var amountInput by remember { mutableStateOf("") }
     val amount = amountInput.toDoubleOrNull()?:0.0
     val tip = calculateTip(amount)
     TextField(
-        value = amountInput,
-        onValueChange = { amountInput = it },
+        value = value,
+        onValueChange = onValueChange,
         label = { Text(stringResource(R.string.bill_amount)) },
         modifier = modifier,
         singleLine = true,
@@ -68,7 +73,9 @@ fun EditNumberField(modifier: Modifier = Modifier) {
 
 @Composable
 fun TipTimeLayout() {
-
+    var amountInput by remember { mutableStateOf("") }
+    val amount = amountInput.toDoubleOrNull() ?: 0.0
+    val tip = calculateTip(amount)
 
     Column(
         modifier = Modifier
@@ -87,7 +94,8 @@ fun TipTimeLayout() {
                 .align(alignment = Alignment.Start)
         )
 
-        EditNumberField(
+        EditNumberField(value = amountInput,
+            onValueChange =  { amountInput = it },
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth()
