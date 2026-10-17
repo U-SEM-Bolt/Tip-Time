@@ -18,6 +18,8 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.tipcalculator.ui.theme.TipCalculatorTheme
 import java.text.NumberFormat
+import androidx.compose.runtime.mutableStateOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,9 +46,10 @@ class MainActivity : ComponentActivity() {
 }
 @Composable
 fun EditNumberField(modifier: Modifier = Modifier) {
+    var amountInput : MutableState<String> = mutableStateOf("0")
     TextField(
-        value = "",
-        onValueChange = {},
+        value = amountInput.value,
+        onValueChange = {amountInput.value = it},
         modifier = modifier
     )
     }
@@ -72,7 +76,8 @@ fun TipTimeLayout() {
         EditNumberField(
             modifier = Modifier
                 .padding(bottom = 32.dp)
-                .fillMaxWidth())
+                .fillMaxWidth()
+        )
 
         Text(
             text = stringResource(R.string.tip_amount, "$0.00"),
